@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enter Names</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<style>
+    body {
+    font-family: Arial, sans-serif;
+    background-color: #f9f9f9;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.container {
+    background-color: #fff;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    text-align: center;
+    width: 300px;
+}
+
+h1 {
+    margin-bottom: 20px;
+}
+
+button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+ul {
+    list-style-type: disc; /* Ensures the list has default bullet points */
+    padding: 0;
+    margin-top: 20px;
+    text-align: left; /* Aligns the list items to the left */
+}
+
+li {
+    padding: 8px 0;
+    border-bottom: 1px solid #ddd;
+}
+
+</style>
+<body>
+    <div class="container">
+        <h1>Enter Names</h1>
+        <button id="start-button">Start</button>
+        <ul id="name-list">
+            <!-- Names will be dynamically added here as list items -->
+        </ul>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+    const startButton = document.getElementById('start-button');
+    const nameList = document.getElementById('name-list');
+
+    startButton.addEventListener('click', () => {
+        const nameCount = parseInt(prompt('How many names do you want to enter?'));
+
+        if (isNaN(nameCount) || nameCount <= 0) {
+            alert('Please enter a valid number.');
+            return;
+        }
+
+        const names = [];
+        
+        for (let i = 0; i < nameCount; i++) {
+            const name = prompt(`Enter name ${i + 1}:`);
+            if (name) {
+                names.push(name.trim());
+            } else {
+                alert('Name cannot be empty.');
+                i--; // Adjust the loop counter to retry the same iteration
+            }
+        }
+
+        // Clear previous names from the list
+        nameList.innerHTML = '';
+
+        // Display the names in an unordered list
+        for (const name of names) {
+            const listItem = document.createElement('li');
+            listItem.textContent = name;
+            nameList.appendChild(listItem);
+        }
+    });
+});
+
+    </script>
+</body>
+</html>

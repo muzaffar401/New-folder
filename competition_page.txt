@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Competition Page</title>
+</head>
+<body>
+    <h1>Competition Registration</h1>
+    <form>
+        <label for="category">Category:</label>
+        <select id="category" name="category" onchange="updateNumberField()">
+            <option value="web-design">Web Design</option>
+            <option value="database-design">Database Design</option>
+            <option value="web-development">Web Development</option>
+            <option value="cs-go">CS GO</option>
+        </select>
+
+        <br><br>
+
+        <label for="number">Number:</label>
+        <input type="number" id="number" name="number">
+
+        <br><br>
+
+        <input type="submit" value="Submit">
+    </form>
+
+    <script>
+        function updateNumberField() {
+            const category = document.getElementById('category').value;
+            const numberField = document.getElementById('number');
+
+            switch (category) {
+                case 'web-design':
+                    numberField.min = 2;
+                    numberField.max = 3;
+                    break;
+                case 'database-design':
+                    numberField.min = 1;
+                    numberField.max = 2;
+                    break;
+                case 'web-development':
+                    numberField.min = 3;
+                    numberField.max = 4;
+                    break;
+                case 'cs-go':
+                    numberField.min = 5;
+                    numberField.max = 5;
+                    break;
+                default:
+                    numberField.min = 1;
+                    numberField.max = 1;
+            }
+
+            // Set the number field value within the range
+            if (numberField.value < numberField.min) {
+                numberField.value = numberField.min;
+            } else if (numberField.value > numberField.max) {
+                numberField.value = numberField.max;
+            }
+        }
+
+        // Initialize the number field limits on page load
+        window.onload = updateNumberField;
+    </script>
+</body>
+</html>

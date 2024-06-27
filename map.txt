@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<link rel="stylesheet" href="css/bootstrap.min.css">
+<script src="https://maps.googleapis.com/maps/api/js"></script>
+
+<body>
+    <style>
+        #map {
+            margin: auto !important;
+            margin-top: 30px !important;
+        }
+
+        #list:hover {
+            cursor: pointer !important;
+        }
+    </style>
+
+    <h1 class="text-center">Onchange</h1>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-3">
+                <select class="form-select" aria-label="Default select example" id="list">
+                    <option selected>Open this select menu</option>
+                    <option value="karachi">Karachi</option>
+                    <option value="lahore">Lahore</option>
+                    <option value="islamabad">Islamabad</option>
+                </select>
+
+                <script>
+                    document.addEventListener('DOMContentLoaded', function () {
+                        var selectList = document.getElementById('list');
+                        selectList.addEventListener('change', function () {
+                            var list = selectList.value;
+                            alert("You Have Selected: " + list);
+                            if (list === "karachi") {
+                                showMap(24.8607, 67.0011); // Coordinates for Karachi
+                            } else if (list === "lahore") {
+                                showMap(31.5497, 74.3436); // Coordinates for Lahore
+                            } else if (list === "islamabad") {
+                                showMap(33.6844, 73.0479); // Coordinates for Islamabad
+                            }
+                        });
+                    });
+
+                    function showMap(lat, lng) {
+                        var mapOptions = {
+                            center: new google.maps.LatLng(lat, lng),
+                            zoom: 10,
+                            mapTypeId: google.maps.MapTypeId.ROADMAP
+                        };
+                        var map = new google.maps.Map(document.getElementById("map"), mapOptions);
+                        var marker = new google.maps.Marker({
+                            position: new google.maps.LatLng(lat, lng),
+                            map: map,
+                            title: 'Location'
+                        });
+                    }
+                </script>
+            </div>
+        </div>
+    </div>
+    <div id="map" style="height: 400px; width: 1000px;"></div>
+</body>
+
+</html>

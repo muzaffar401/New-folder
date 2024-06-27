@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    .container{
+        width: 80%;
+        margin: auto;
+    }
+    table{
+        border-collapse: collapse;
+        width: 70%;
+    }
+</style>
+<body>
+  <div class="container">
+    <table border="1">
+   <thead>
+    <tr>
+        <th>name</th>
+        <th>storage</th>
+        <th>price</th>
+        <th>image</th>
+        <th>detail</th>
+    </tr>
+   </thead>
+   <tbody id="data">
+    
+   </tbody>
+    </table>
+  </div>
+    <script>
+        let mobile = [
+    {"name":"infinix aX",
+storage:"128GB",
+price:46000,
+image:"js/images/img1.jpg"
+},
+{"name":"infinix b",
+storage:"128GB",
+price:46000,
+image:"js/images/img2.jpg"
+},
+{"name":"infinix c",
+storage:"128GB",
+price:46000,
+image:"js/images/img3.jpg"
+},
+{"name":"infinix d",
+storage:"128GB",
+price:46000,
+image:"js/images/img4.jpg"
+},
+{"name":"abc d",
+storage:"128GB",
+price:46000,
+image:"js/images/img4.jpg"
+}
+,
+{"name":"infinix aX",
+storage:"128GB",
+price:46000,
+image:"js/images/img1.jpg"
+},
+{"name":"infinix b",
+storage:"128GB",
+price:46000,
+image:"js/images/img2.jpg"
+},
+{"name":"infinix c",
+storage:"128GB",
+price:46000,
+image:"js/images/img3.jpg"
+},
+{"name":"infinix d",
+storage:"128GB",
+price:46000,
+image:"js/images/img4.jpg"
+},
+{"name":"abc d",
+storage:"128GB",
+price:46000,
+image:"js/images/img4.jpg"
+}
+]
+// console.log(obj)
+// // document.write(obj."name"+" "+obj.email+" "+obj.phone);
+// for(let key in obj){
+//     console.log(key);
+
+//     document.getElementById('demo').innerHTML +=key+" : "+obj[key]+" <br>";
+// }
+let dataTable = document.getElementById('data');
+
+for(let key in mobile){
+    // console.log(mobile[key].name)
+    let x = "<tr><td>"+mobile[key].name+"</td><td>"+mobile[key].storage+"</td><td>"+mobile[key].price+"</td><td><img src='"+mobile[key].image+"' width='50px'/></td><td><a href=''>details</a></td></tr>"
+    dataTable.innerHTML+=x;
+}
+    </script>
+</body>
+</html>

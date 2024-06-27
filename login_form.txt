@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Form</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+    integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+
+<body>
+    <form id="loginForm" class="col-lg-3 mx-auto" onsubmit="return loginForm()">
+        <h2 class="text-danger text-center mb-3 ">Login Form</h2>
+        <div class="mb-3">
+            <label for="email" class="form-label">Email address</label>
+            <input type="email" class="form-control" id="email" name="email">
+            <span id="emailError" class="error"></span>
+        </div>
+        <div class="mb-3">
+            <label for="password" class="form-label">Password</label>
+            <input type="password" class="form-control" id="password" name="password">
+            <span id="passwordError" class="error"></span>
+        </div>
+        <button type="submit" class="btn btn-danger">Login</button>
+    </form>
+    <script src="q1.js"></script>
+</body>
+
+</html>
+
+
+
+//css
+
+body {
+    background-image: url(/img/greg-rosenke-6QnEf_b47eA-unsplash.jpg);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+}
+
+.error {
+    color: red;
+    font-size: 14px;
+    font-weight: bolder;
+    display: inline-block;
+    /* Ensure error messages don't move when empty */
+    height: 20px;
+    /* Set fixed height for error messages */
+}
+
+.form-control {
+    height: 40px;
+    /* Set fixed height for form inputs */
+}
+
+form {
+    background-color: rgba(255, 255, 255, 0.4) !important;
+    padding: 20px !important;
+    margin-top: 150px !important;
+    border-radius: 10px !important;
+}
+
+label {
+    font-weight: bolder !important;
+}
+#h1{
+    margin-top: 250px;
+}
+
+//js
+
+
+// Function to validate the form
+function loginForm() {
+    let email = document.getElementById("email").value;
+    let password = document.getElementById("password").value;
+    let emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]{3,}$/; //email pattern with proper validation
+
+    let passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@_-])[A-Za-z\d@_-]{8,}$/; //password pattern with proper validation
+
+    let valid = true;
+    //if email input in blank 
+    if (email.trim() === "") {
+        document.getElementById("emailError").textContent = "Please Fill Out This Field!";
+        valid = false;
+        //if not match with email format which is define in regix format
+    } else if (!emailPattern.test(email)) {
+        document.getElementById("emailError").textContent = "Invalid email format";
+        valid = false;
+    } else {
+        document.getElementById("emailError").textContent = "";
+    }
+    //if password input in blank
+    if (password.trim() === "") {
+        document.getElementById("passwordError").textContent = "Please Fill Out This Field!";
+        valid = false;
+        //if not match with password pattern which is define in regix format
+    } else if (!passwordPattern.test(password)) {
+        document.getElementById("passwordError").textContent = "Password must contain at least 8 characters, including uppercase, lowercase, digit, and special character.";
+        valid = false;
+    } else {
+        document.getElementById("passwordError").textContent = "";
+    }
+
+    if (valid) {
+        // Redirect to dashboard.html if the form is valid
+        window.location.href = "dashboard.html";
+    }
+
+    return false; // Prevent default form submission
+}
+
+//validate inputs on keyup using jquery
+$(document).ready(function () {
+    $('#email').on('keyup', function () {
+        let email = $(this).val();
+        let emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]{3,}$/; // Email pattern
+
+        if (email.trim() === "") {
+            $('#emailError').text('Please Fill Out This Field!');
+        } else if (!emailPattern.test(email)) {
+            $('#emailError').text('Invalid email format');
+        } else {
+            $('#emailError').text('');
+        }
+    });
+
+    $('#password').on('keyup', function () {
+        let password = $(this).val();
+        let passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@_-])[A-Za-z\d@_-]{8,}$/; // Password pattern
+
+        if (password.trim() === "") {
+            $('#passwordError').text('Please Fill Out This Field!');
+        } else if (!passwordPattern.test(password)) {
+            $('#passwordError').text('Password must contain at least 8 characters, including uppercase, lowercase, digit, and special character.');
+        } else {
+            $('#passwordError').text('');
+        }
+    });
+});

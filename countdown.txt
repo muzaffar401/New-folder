@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Countdown Timer</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="countdown-container">
+        <h1>Countdown Timer</h1>
+        <label for="datetime">Enter target date and time:</label><br><br>
+        <input type="datetime-local" id="datetime"><br><br>
+        <button onclick="startCountdown()">Start Countdown</button><br><br>
+        <span id="error-msg"></span><br>
+
+        <div id="timer">
+
+        </div>
+    </div>
+    <script src="q1.js"></script>
+</body>
+
+</html>
+
+//css
+
+body {
+  font-family: Arial, sans-serif;
+  display: block;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+  background-image: url(/img/akram-huseyn-f3nGngsnp3A-unsplash.jpg);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-attachment: fixed;
+  margin-top: 100px;
+}
+
+.countdown-container {
+  text-align: center;
+  background-color: rgba(255, 255, 255,0.3);
+  width: 500px;
+  margin: auto;
+  height: 400px;
+  padding: 50px;
+  border-radius: 50px;
+}
+
+#timer {
+  font-size: 2em;
+  margin: 20px 0;
+}
+
+button {
+  padding: 10px 20px;
+  font-size: 1em;
+  cursor: pointer;
+  background-color: #ff0000;
+  color: white;
+  border: none;
+  border-radius: 5px;
+}
+
+button:hover {
+  background-color: #700000;
+}
+#datetime{
+    font-size: 30px;
+    background-color: rgba(255, 255, 255,0.5);
+    border: none;
+    font-family: 'Times New Roman', Times, serif;
+    font-weight: bold;
+
+}
+#datetime:hover{
+    cursor: pointer;
+    background-color: rgba(0, 0, 0, 0.1);
+    transition: all 0.5s;
+    
+}
+
+#timer{
+    text-align: center;
+    font-size: 50px;
+    background-color: rgba(255, 255, 255,0.5);
+    padding: 20px;
+    border-bottom: 5px solid;
+    border-top: 5px solid;
+    font-family: 'Times New Roman', Times, serif;
+    height: 60px;
+}
+
+#error-msg{
+    color: #910b0b;
+    font-weight: bolder;
+}
+label{
+    font-size: 20px;
+    font-weight: bold;
+    color: rgb(48, 47, 47);
+}
+h1{
+    color: rgb(48, 47, 47);
+}
+
+
+//js
+
+function startCountdown() {
+    // Get the input element and error message element
+    var datetimeInput = document.getElementById("datetime");
+    var errorMsg = document.getElementById("error-msg");
+
+    // Check if datetime input is empty or not in correct format
+    if (!datetimeInput.value) {
+        // Display error message if input is empty
+        errorMsg.textContent = "Please select a valid date and time.";
+        return; // Exit function if input is invalid
+    }
+
+    // Convert input value to target date in milliseconds
+    var targetDate = new Date(datetimeInput.value).getTime();
+
+  
+    // Update timer every second using setInterval
+    var x = setInterval(function () {
+        // Get the current time
+        var now = new Date().getTime();
+        // Calculate the remaining time
+        var distance = targetDate - now;
+
+        // Calculate days, hours, minutes, and seconds
+        var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+        // Display the remaining time in the timer element
+        document.getElementById("timer").innerHTML = days + "d " + hours + "h "
+            + minutes + "m " + seconds + "s ";
+
+        // Check if the countdown has expired
+        if (distance < 0) {
+            // Stop the timer
+            clearInterval(x);
+            // Display "EXPIRED" message in the timer element
+            document.getElementById("timer").innerHTML = "EXPIRED";
+        }
+    }, 1000); // Update timer every second
+
+    // Clear error message when countdown starts
+    errorMsg.textContent = "";
+}
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Countdown Timer</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="countdown-container">
+        <h1>Countdown Timer</h1>
+        <label for="datetime">Enter target date and time:</label><br><br>
+        <input type="datetime-local" id="datetime"><br><br>
+        <button onclick="startCountdown()">Start Countdown</button><br><br>
+        <div class="timer-container">
+            <div id="timer" class="timer">
+                <div id="digital-timer" class="digital-timer"></div>
+            </div>
+        </div>
+        <span id="error-msg"></span>
+    </div>
+    
+
+    <script>
+        function startCountdown() {
+            var datetimeInput = document.getElementById("datetime");
+            var errorMsg = document.getElementById("error-msg");
+
+            // Check if datetime input is empty or not in correct format
+            if (!datetimeInput.value) {
+                errorMsg.textContent = "Please select a valid date and time.";
+                return;
+            }
+
+            var targetDate = new Date(datetimeInput.value).getTime();
+
+            if (isNaN(targetDate)) {
+                errorMsg.textContent = "Invalid date and time format.";
+                return;
+            }
+
+            var x = setInterval(function () {
+                var now = new Date().getTime();
+                var distance = targetDate - now;
+
+                var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+                // Update digital timer
+                var digitalTimerElement = document.getElementById("digital-timer");
+                digitalTimerElement.innerHTML = `<span>${days < 10 ? '0' + days : days}</span> :
+                                                <span>${hours < 10 ? '0' + hours : hours}</span> :
+                                                <span>${minutes < 10 ? '0' + minutes : minutes}</span> :
+                                                <span>${seconds < 10 ? '0' + seconds : seconds}</span>`;
+
+                var timerElement = document.getElementById("timer");
+                var progress = (distance / (24 * 60 * 60 * 1000)) * 100; // Calculate progress in percentage
+
+                // Apply styles for circular progress
+                timerElement.style.backgroundImage = `conic-gradient(#007bff ${100 - progress}%, #f0f0f0 0)`;
+
+                if (distance < 0) {
+                    clearInterval(x);
+                    digitalTimerElement.innerHTML = "EXPIRED";
+                }
+            }, 1000);
+
+            // Clear error message when countdown starts
+            errorMsg.textContent = "";
+        }
+
+    </script>
+</body>
+</html>

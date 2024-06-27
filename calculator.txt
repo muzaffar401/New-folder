@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculator</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<style>
+    /* styles.css */
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f0f0f0;
+    font-family: Arial, sans-serif;
+    margin: 0;
+}
+
+.calculator {
+    background-color: #333;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+    width: 300px;
+}
+
+.display {
+    background-color: #222;
+    padding: 20px;
+}
+
+#display {
+    width: 100%;
+    background: #222;
+    border: none;
+    color: #fff;
+    font-size: 2em;
+    text-align: right;
+    outline: none;
+}
+
+.buttons {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    padding: 10px;
+}
+
+.button {
+    background-color: #444;
+    border: none;
+    color: #fff;
+    font-size: 1.5em;
+    padding: 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    text-align: center;
+}
+
+.button:hover {
+    background-color: #555;
+}
+
+.operator {
+    background-color: #ff9800;
+}
+
+.operator:hover {
+    background-color: #e68a00;
+}
+
+#equals {
+    background-color: #4caf50;
+    grid-column: span 2;
+}
+
+#equals:hover {
+    background-color: #45a049;
+}
+
+</style>
+<body>
+    <div class="calculator">
+        <div class="display">
+            <input type="text" id="display" disabled>
+        </div>
+        <div class="buttons">
+            <!-- Row 1 -->
+            <button class="button" id="clear-entry">CE</button>
+            <button class="button" id="clear">C</button>
+            <button class="button" id="backspace">←</button>
+            <button class="button operator" id="divide">/</button>
+            <!-- Row 2 -->
+            <button class="button number">7</button>
+            <button class="button number">8</button>
+            <button class="button number">9</button>
+            <button class="button operator" id="multiply">*</button>
+            <!-- Row 3 -->
+            <button class="button number">4</button>
+            <button class="button number">5</button>
+            <button class="button number">6</button>
+            <button class="button operator" id="subtract">-</button>
+            <!-- Row 4 -->
+            <button class="button number">1</button>
+            <button class="button number">2</button>
+            <button class="button number">3</button>
+            <button class="button operator" id="add">+</button>
+            <!-- Row 5 -->
+            <button class="button number">0</button>
+            <button class="button" id="decimal">.</button>
+            <button class="button" id="equals">=</button>
+        </div>
+    </div>
+    <script>
+        // script.js
+document.addEventListener('DOMContentLoaded', function() {
+    const display = document.getElementById('display');
+    let currentInput = ''; 
+    let operation = null; 
+    let previousInput = ''; 
+
+    const buttons = document.querySelectorAll('.button');
+    buttons.forEach(button => {
+        button.addEventListener('click', () => {
+            const value = button.textContent;
+
+            if (button.classList.contains('number')) {
+                currentInput += value;
+                display.value = currentInput;
+            } else if (button.classList.contains('operator')) {
+                if (currentInput === '') return;
+                previousInput = currentInput;
+                currentInput = '';
+                operation = value;
+            } else if (button.id === 'equals') {
+                if (operation && currentInput && previousInput) {
+                    const result = calculate(Number(previousInput), Number(currentInput), operation);
+                    display.value = result;
+                    currentInput = result.toString();
+                    operation = null;
+                    previousInput = '';
+                }
+            } else if (button.id === 'clear-entry') {
+                currentInput = '';
+                display.value = '';
+            } else if (button.id === 'clear') {
+                currentInput = '';
+                previousInput = '';
+                operation = null;
+                display.value = '';
+            } else if (button.id === 'backspace') {
+                currentInput = currentInput.slice(0, -1);
+                display.value = currentInput;
+            } else if (button.id === 'decimal') {
+                if (!currentInput.includes('.')) {
+                    currentInput += value;
+                    display.value = currentInput;
+                }
+            }
+        });
+    });
+
+    function calculate(a, b, operator) {
+        switch (operator) {
+            case '+':
+                return a + b;
+            case '-':
+                return a - b;
+            case '*':
+                return a * b;
+            case '/':
+                return a / b;
+            default:
+                return b;
+        }
+    }
+});
+
+    </script>
+</body>
+</html>

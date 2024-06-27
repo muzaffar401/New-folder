@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bank Application</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <h1>Bank Application</h1>
+    <div class="container">
+        <p class="p1">Enter Account Name</p>
+        <input type="text" id="inp1" name="inp1" placeholder="Enter Your Name">
+        <br>
+        <span id="span1"></span>
+        <br>
+        <p class="p1">Enter Initial Balance</p>
+        <input type="number" id="inp2" placeholder="Enter Your Balance">
+        <br>
+        <span id="span2"></span>
+        <br>
+        <button id="btn1" onclick="createAccount()">Create Account</button>
+        <br>
+        <p class="p1">Transaction</p>
+        <input type="number" id="inp3" placeholder="Enter Amount"><br>
+        <span id="span3"></span><br>
+        <button id="btn2" onclick="deposit()">Deposit</button>
+        <button id="btn3" onclick="withdraw()">Withdraw</button>
+        <br>
+        <h2>Account Balance:</h2>
+        <h3 id="print"></h3>
+    </div>
+    <script src="q1.js"></script>
+</body>
+
+</html>
+
+
+//css
+
+body {
+    font-family: Arial, sans-serif;
+    background: rgb(0, 0, 0);
+}
+
+.container {
+    max-width: 600px;
+    margin: 50px auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background-color: rgba(255, 255, 255,1);
+    border: none;
+    height: 650px;
+}
+
+.p1{
+    font-size: 20px;
+    font-weight: bold;
+}
+
+input{
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    box-sizing: border-box;
+}
+
+button {
+    padding: 8px 20px;
+    cursor: pointer;
+    font-size: 20px;
+    border-radius: 10px;
+    border: none;
+    background-color: black;
+    color: white;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+
+}
+#btn1{
+    margin-left: 12rem;
+    margin-top: 1rem;
+}
+#btn2{
+    margin-top: 1rem;
+}
+#btn3{
+    margin-top: 1rem;
+    margin-left: 1rem;
+}
+#inp1{
+    font-size: 20px;
+}
+#inp2{
+    font-size: 20px;
+}
+#inp3{
+    font-size: 20px;
+}
+#inp4{
+    font-size: 20px;
+}
+h1{
+    text-align: center;
+    color: white;
+    text-decoration: underline;
+    font-family: serif;
+    font-size: 45px;
+}
+h2{
+    margin-top: 2rem;
+    font-style: oblique;
+    font-family: Arial, Helvetica, sans-serif;
+}
+#print{
+    color: green;
+}
+
+
+//js
+
+//bank application task
+//create account //function
+function createAccount() {
+    let accountName = document.getElementById("inp1").value;
+    let initialBalance = parseFloat(document.getElementById("inp2").value);
+
+    //if not account name and not a number in initial balance
+    if (!accountName || isNaN(initialBalance)) {
+        document.getElementById("span1").innerText = "Please Fill Out This Field";
+        document.getElementById("span1").style.color = "red";
+        document.getElementById("span2").innerText = "Please Fill Out This Field";
+        document.getElementById("span2").style.color = "red";
+        if (accountName) {
+            document.getElementById("span1").innerText = " ";
+        }
+        else if (initialBalance) {
+            document.getElementById("span2").innerText = " ";
+        }
+        return;
+
+    }
+
+    //if initial balance less than and equal to 0
+    else if (initialBalance <= 0) {
+        document.getElementById("span1").innerText = " ";
+        document.getElementById("span2").innerText = "Enter Valid Initial Balance";
+        document.getElementById("span2").style.color = "red";
+        return;
+    }
+    //if alphabets are not type in account name or account name length equal to zero
+    else if (!(/^[a-zA-Z]+$/.test(accountName)) || accountName.length == 0) {
+        document.getElementById("span2").innerText = " ";
+        document.getElementById("span1").innerText = "Enter Valid Account Name";
+        document.getElementById("span1").style.color = "red";
+        return;
+    }
+    //if all conditons are true then print and store in local storage
+    else {
+        alert("Account Created Successfully")
+        document.getElementById("span1").innerText = " ";
+        document.getElementById("span2").innerText = " ";
+        // Store account details in local storage
+        localStorage.setItem("Account Name", accountName);
+        localStorage.setItem("Balance", initialBalance);
+
+
+    }
+    updateBalance(initialBalance);
+
+
+}
+
+//deposite // function
+function deposit() {
+    let depositAmount = parseFloat(document.getElementById("inp3").value);
+    //if deposite amount not a number or less than and equal to zero
+    if (isNaN(depositAmount) || depositAmount <= 0) {
+        document.getElementById("span3").innerText = "Enter a Valid Deposit Amount";
+        document.getElementById("span3").style.color = "red";
+        return;
+    }
+    //if all conditions are true then print and store in local storage
+    document.getElementById("span3").innerText = " ";
+    let balance = parseFloat(localStorage.getItem("Balance"));
+    balance += depositAmount;
+    localStorage.setItem("Balance", balance);
+
+    updateBalance(balance);
+}
+
+// withdraw //function
+function withdraw() {
+    let withdrawAmount = parseFloat(document.getElementById("inp3").value);
+    //if withdraw amount not a number or less than and equal to zero
+    if (isNaN(withdrawAmount) || withdrawAmount <= 0) {
+        document.getElementById("span3").innerText = "Enter a Valid Withdraw Amount";
+        document.getElementById("span3").style.color = "red";
+        return;
+    }
+    let balance = parseFloat(localStorage.getItem("Balance"));
+    //if withdraw amount greater than balance amount 
+    document.getElementById("span3").innerText = " ";
+    if (withdrawAmount > balance) {
+        document.getElementById("span3").innerText = "Insufficient balance";
+        document.getElementById("span3").style.color = "red";
+        return;
+    }
+    //if all conditions are true then print and store in local storage
+    document.getElementById("span3").innerText = " ";
+    balance -= withdrawAmount;
+    localStorage.setItem("Balance", balance);
+
+    updateBalance(balance);
+}
+
+// function to update and display curent amount balance
+function updateBalance(balance) {
+    let balanceDisplay = document.getElementById("print");
+    balanceDisplay.innerText = "Balance: $" + balance.toFixed(2);
+}
+
+// when the page is loaded then load account details 
+window.onload = function () {
+    let accountName = localStorage.getItem("Account Name");
+    let balance = parseFloat(localStorage.getItem("Balance"));
+
+    if (accountName && !isNaN(balance)) {
+        document.getElementById("inp1").value = accountName;
+        updateBalance(balance);
+    }
+};

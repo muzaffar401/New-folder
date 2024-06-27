@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Name Drawing Application</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+   <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="container">
+        <div id="input-form">
+            <h2 class="text-light">Enter Your Name</h2><br>
+            <form id="drawing-form">
+                <label for="name">Name</label><br>
+                <input type="text" id="name" name="name" class="form-control" >
+                <span id="span2"></span><br>
+                
+
+                <label for="font-style">Font Style</label><br>
+                <select id="font-style" name="font-style" class="btn btn-success">
+                    <option value="" disabled selected>Select Font Style</option> <!-- Disable the default option -->
+                    <option value="Arial">Arial</option>
+                    <option value="Verdana">Verdana</option>
+                    <option value="Tahoma">Tahoma</option>
+                    <option value="Times New Roman">Times New Roman</option>
+                    <option value="Courier New">Courier New</option>
+                    <option value="Fantasy">Fantasy</option>
+                </select><br>
+                <span id="span1"></span>
+                <br><br>
+
+                <label for="color">Color</label><br>
+                <input type="color" id="color" name="color" value="#000000"><br><br>
+
+                <input type="submit" value="Draw Name" class="btn btn-danger">
+            </form>
+        </div>
+    </div>
+
+    <div id="canvas-container">
+        <h3 class="text-center text-light mt-3">Your Text is Print Here</h1>
+            <canvas id="canvas" width="400" height="200"></canvas>
+    </div>
+
+    <script src="q1.js"></script>
+</body>
+
+</html>
+
+
+
+//css
+
+body {
+    font-family: Arial, sans-serif;
+    background-image: url(/css/ethan-hoover-eIVJAkj1uCs-unsplash.jpg);
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
+#canvas-container {
+    text-align: center;
+    margin-top: 50px;
+}
+
+canvas {
+    border: 2px solid rgb(255, 255, 255);
+    background-color: white;
+}
+
+.container {
+    margin-top: 20px !important;
+    background-color: rgba(255, 255, 255, 0.2) !important;
+    width: 300px !important;
+    padding: 20px !important;
+    border-radius: 10px !important;
+    -moz-box-shadow: 0 0 5px #ffffff;
+    -webkit-box-shadow: 0 0 5px #ffffff;
+    box-shadow: 0 0 5px #ffffff;
+}
+
+label {
+    margin-bottom: 10px !important;
+    font-size: 20px !important;
+    font-weight: bold !important;
+    color: white !important;
+}
+
+input[type="color"]:hover {
+    cursor: pointer;
+}
+
+input[type="color"] {
+    padding: 0;
+    border: none;
+    border-radius: 30px;
+    width: 40px;
+    height: 40px;
+
+}
+
+input[type="color"]::-webkit-color-swatch {
+    border: none;
+    border-radius: 30px;
+    padding: 0;
+}
+
+input[type="color"]::-webkit-color-swatch-wrapper {
+    border: none;
+    border-radius: 30px;
+    padding: 0;
+}
+
+span {
+    font-weight: bold !important;
+    opacity: 0.7 !important;
+}
+
+input[type="text"] {
+    font-size: 20px !important;
+}
+
+
+//js
+
+document.getElementById("drawing-form").addEventListener("submit", function (event) {
+    event.preventDefault();
+    drawName();
+});
+
+function drawName() {
+    let empty = document.getElementById("font-style").value; // Get the value of the font style select
+    let input = document.getElementById("name").value.trim(); // Get the name input value
+
+    // Regular expression to match only letters
+    let lettersOnly = /^[a-zA-Z\s]+$/;
+    //check if the input field is blank
+    if (input === "") {
+        document.getElementById("span2").innerText = "Please Fill Out This Field!";
+        document.getElementById("span2").style.color = "red";
+        document.getElementById("span1").innerText = "";
+        return false;
+    } else if (!input.match(lettersOnly)) { // Check if the name contains only letters
+        document.getElementById("span2").innerText = "Only Alphabets are Allowed";
+        document.getElementById("span2").style.color = "red";
+        document.getElementById("span1").innerText = "";
+        return false;
+    } else if (empty === "") { // Check if the font style is selected
+        document.getElementById("span2").innerText = "";
+        document.getElementById("span1").innerText = "Please Select Font Style"
+        document.getElementById("span1").style.color = "red";
+    } else {
+        document.getElementById("span2").innerText = "";
+        document.getElementById("span1").innerText = "";
+        let canvas = document.getElementById("canvas");
+        let ctx = canvas.getContext("2d");
+
+        // Clear the canvas
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        let name = input; // Use the validated name input
+        let fontStyle = document.getElementById("font-style").value;
+        let color = document.getElementById("color").value;
+
+        ctx.font = "30px " + fontStyle;
+        ctx.fillStyle = color;
+        ctx.textAlign = "center";
+        ctx.textBaseline = "middle";
+
+        // Center the text horizontally and vertically
+        let x = canvas.width / 2;
+        let y = canvas.height / 2;
+        ctx.fillText(name, x, y);
+    }
+}

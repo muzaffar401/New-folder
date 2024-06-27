@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Palindrome</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Palindrome program</h1>
+    <p>Enter string</p>
+    <input type="text" id="input">
+    <input type="button" value="click" id="btn" onclick="palindrome()">
+    <p id="data"></p>
+    <script src="q1.js"></script>
+  </div>
+
+</body>
+</html>
+
+
+
+
+//css
+
+
+*{
+    background-color: cornflowerblue;
+}
+.container{
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+}
+h1{
+    font-size: 45px;
+    font-family:Arial, Helvetica, sans-serif;
+    text-decoration: underline;
+}
+p{
+    font-size: 25px;
+    font-family: 'Courier New', Courier, monospace;
+    font-weight: 700;
+}
+
+
+
+//js
+
+
+//Palindrome Method
+function palindrome() {
+    let inputValue = document.getElementById("input").value;
+     // Step 1. Lowercase the string and use the RegExp to remove unwanted characters from it
+    let regularExpression = /[^A-Za-z0-9]/g; // or let regularExpression  = /[\W_]/g;
+    //convert string into lowercase and replace it into regular expression
+    let lowerRegularString = inputValue.toLowerCase().replace(regularExpression, '');
+    // Step 2. Use the same chaining methods with built-in functions from the previous article 'Three Ways to Reverse a String in JavaScript'
+    let reverseString = lowerRegularString.split('').reverse().join('');
+      // Step 3. Check if reverseString is strictly equals to lowRegString and return a True
+   if(reverseString){
+    if (reverseString === lowerRegularString) {
+        document.getElementById("data").innerHTML = "True";
+    } else {
+        document.getElementById("data").innerHTML = "False";
+    }
+   }else{
+    alert("please fill the input")
+   }
+    
+}

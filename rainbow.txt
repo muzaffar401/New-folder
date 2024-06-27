@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rainbow Drawing App</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <h1>Rainbow Drawing App</h1>
+    <canvas id="canvas" width="1200" height="400"></canvas>
+    <div class="container text-center ">
+        <p>Select Color 1</p>
+        <input type="color" id="color1"><br>
+        <span id="span1" class="error"></span><br>
+        <p>Select Color 2</p>
+        <input type="color" id="color2"><br>
+        <span id="span2" class="error"></span><br>
+        <p>Select Color 3</p>
+        <input type="color" id="color3"><br>
+        <span id="span3" class="error"></span><br>
+        <p>Select Color 4</p>
+        <input type="color" id="color4"><br>
+        <span id="span4" class="error"></span><br>
+        <p>Select Color 5</p>
+        <input type="color" id="color5"><br>
+        <span id="span5" class="error"></span><br><br>
+        <button onclick="ranbowFunc()" class="btn btn-warning">Draw Rainbow</button>
+    </div>
+
+
+    <script src="q1.js"></script>
+</body>
+
+</html>
+
+//css
+
+body {
+    font-family: Arial, sans-serif;
+    background-image: url(/img/patrick-fore-1gT773Pm8Mo-unsplash.jpg);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
+canvas {
+    display: block;
+    margin: 20px auto;
+}
+
+p {
+    display: block;
+    margin-bottom: 10px;
+}
+
+.error {
+    color: red;
+    font-weight: bold;
+}
+
+p {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.container {
+    width: 20rem;
+    background-color: rgba(255, 255, 255, 0.3);
+    border-radius: 20px;
+    padding: 20px;
+}
+
+input:hover {
+    cursor: pointer;
+}
+
+input {
+    padding: 0;
+    border: none;
+    border-radius: 30px;
+    width: 40px;
+    height: 40px;
+
+}
+
+input::-webkit-color-swatch {
+    border: none;
+    border-radius: 30px;
+    padding: 0;
+}
+
+input::-webkit-color-swatch-wrapper {
+    border: none;
+    border-radius: 30px;
+    padding: 0;
+}
+
+.btn{
+    font-weight: bold !important;
+}
+
+h1 {
+    text-align: center;
+    text-decoration: underline;
+}
+
+//js
+
+function ranbowFunc() {
+    let canvas = document.getElementById('canvas');
+    let context = canvas.getContext('2d');
+
+
+
+    // get colors from input with unique id
+    let colors = [
+        document.getElementById('color1').value,
+        document.getElementById('color2').value,
+        document.getElementById('color3').value,
+        document.getElementById('color4').value,
+        document.getElementById('color5').value
+    ];
+    //hold colors in different variable name
+    let color1 = document.getElementById('color1').value;
+    let color2 = document.getElementById('color2').value;
+    let color3 = document.getElementById('color3').value;
+    let color4 = document.getElementById('color4').value;
+    let color5 = document.getElementById('color5').value;
+
+    //extra validations
+    if (color1 === '#000000') {
+        document.getElementById("span1").innerText = "Please Pick This Color!"
+    }
+    else {
+        document.getElementById("span1").innerText = "";
+    }
+    if (color2 === '#000000') {
+        document.getElementById("span2").innerText = "Please Pick This Color!"
+    }
+    else {
+        document.getElementById("span2").innerText = "";
+    }
+    if (color3 === '#000000') {
+        document.getElementById("span3").innerText = "Please Pick This Color!"
+    }
+    else {
+        document.getElementById("span3").innerText = "";
+    }
+    if (color4 === '#000000') {
+        document.getElementById("span4").innerText = "Please Pick This Color!"
+    }
+    else {
+        document.getElementById("span4").innerText = "";
+    }
+    if (color5 === '#000000') {
+        document.getElementById("span5").innerText = "Please Pick This Color!"
+    }
+    else {
+        document.getElementById("span5").innerText = "";
+    }
+
+
+    // validate colors
+    for (let i = 0; i < colors.length; i++) {
+        if (colors[i] === '#000000') {
+            document.getElementById("span" + (i + 1)).innerText = "Please Pick This Color!";
+            return;
+        }
+    }
+    if (color1 != '#000000' && color2 != '#000000' && color3 != '#000000' && color4 != '#000000' && color5 != '#000000') {
+
+        // draw rainbow
+        let centerX = canvas.width / 2;
+        let centerY = canvas.height;
+        let radius = canvas.height;
+        context.clearRect(0, 0, canvas.width, canvas.height);
+
+        let angleStep = Math.PI / (colors.length - 1);
+        for (let i = 0; i < colors.length; i++) {
+            context.beginPath();
+            context.arc(centerX, centerY, radius - i * 20, Math.PI, 0, false);
+            context.fillStyle = colors[i];
+            context.fill();
+            context.closePath();
+        }
+    }
+}

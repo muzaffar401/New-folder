@@ -1,0 +1,154 @@
+//triangle shape
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pyramid</title>
+</head>
+<body>
+    <div id="pyramid"></div>
+    <script>
+        let pyramidDiv = document.getElementById('pyramid');
+        let pyramidHtml = '';
+
+        for (let i = 1; i <= 5; i++) {
+            for (let j = 5; j > i; j--) {
+                pyramidHtml += ' &nbsp; ';
+            }
+            for (let k = 1; k <= ((2 * i) - 1); k++) {
+                pyramidHtml += '*';
+            }
+            pyramidHtml += '<br>';
+        }
+
+        pyramidDiv.innerHTML = pyramidHtml;
+    </script>
+</body>
+</html>
+
+
+// inverted complete pyramid
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inverted Pyramid</title>
+</head>
+<body>
+    <div id="pyramid"></div>
+    <script>
+        let pyramidDiv = document.getElementById('pyramid');
+        let pyramidHtml = '';
+
+        // Total number of levels in the pyramid
+        const levels = 5;
+
+        for (let i = levels; i >= 1; i--) {
+            // Add leading spaces for alignment
+            for (let j = levels; j > i; j--) {
+                pyramidHtml += '&nbsp;&nbsp;';
+            }
+            // Add stars for the current row
+            for (let k = 1; k <= (2 * i - 1); k++) {
+                pyramidHtml += '*';
+            }
+            // Move to the next line after completing the row
+            pyramidHtml += '<br>';
+        }
+
+        pyramidDiv.innerHTML = pyramidHtml;
+    </script>
+</body>
+</html>
+
+
+
+
+//hollow square pattern
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hollow Square Pattern</title>
+</head>
+<body>
+    <div id="pattern"></div>
+    <script>
+        let patternDiv = document.getElementById('pattern');
+        let patternHtml = '';
+        const size = 5; // Size of the hollow square
+
+        for (let i = 0; i < size; i++) {
+            for (let j = 0; j < size; j++) {
+                // Condition to print stars only at the borders
+                if (i === 0 || i === size - 1 || j === 0 || j === size - 1) {
+                    patternHtml += '*';
+                } else {
+                    patternHtml += '&nbsp;&nbsp;'; // Two non-breaking spaces for inner cells
+                }
+            }
+            patternHtml += '<br>'; // Move to the next line after completing the row
+        }
+
+        patternDiv.innerHTML = patternHtml;
+    </script>
+</body>
+</html>
+
+
+
+
+//rhombus star pattern
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rhombus Star Pattern</title>
+</head>
+<body>
+    <div id="pattern"></div>
+    <script>
+        let patternDiv = document.getElementById('pattern');
+        let patternHtml = '';
+        const size = 5; // Size of the rhombus (number of rows)
+
+        // Upper part of the rhombus (including the middle row)
+        for (let i = 1; i <= size; i++) {
+            // Print leading spaces
+            for (let j = 1; j <= size - i; j++) {
+                patternHtml += '&nbsp;&nbsp;';
+            }
+            // Print stars
+            for (let k = 1; k <= size; k++) {
+                patternHtml += '*';
+            }
+            patternHtml += '<br>'; // Move to the next line
+        }
+
+        // Lower part of the rhombus (excluding the middle row)
+        for (let i = size - 1; i >= 1; i--) {
+            // Print leading spaces
+            for (let j = 1; j <= size - i; j++) {
+                patternHtml += '&nbsp;&nbsp;';
+            }
+            // Print stars
+            for (let k = 1; k <= size; k++) {
+                patternHtml += '*';
+            }
+            patternHtml += '<br>'; // Move to the next line
+        }
+
+        patternDiv.innerHTML = patternHtml;
+    </script>
+</body>
+</html>

@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Secure Login</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <h1 id="h1">Secure Login System</h1>
+
+  <div class="container">
+
+    <p id="inp1">User Name</p>
+    <input type="text" id="username" placeholder="Enter Username"><br>
+
+    <p id="inp2">Password</p>
+    <input type="password" id="password" placeholder="Enter Password"><br><br>
+
+
+    <button onclick="login()">Login</button><br><br><br>
+
+    <h3 id="print"></h3>
+  </div>
+
+  <script src="q1.js"> </script>
+
+</body>
+
+</html>
+
+
+
+//css
+
+body {
+    font-family: Arial, sans-serif;
+    background: rgb(0, 0, 0);
+    height: 612px;
+}
+
+.container {
+    max-width: 400px;
+    margin: 50px auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background-color: rgba(255, 255, 255,1);
+    border: none;
+    height: 400px;
+}
+
+input[type="text"] {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    box-sizing: border-box;
+}
+input[type="password"] {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    box-sizing: border-box;
+}
+
+button {
+    padding: 8px 20px;
+    cursor: pointer;
+    font-size: 20px;
+    border-radius: 10px;
+    border: none;
+    background-color: black;
+    color: white;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+
+}
+#inp1{
+    font-size: 20px;
+}
+#inp2{
+    font-size: 20px;
+}
+#h1{
+    text-align: center;
+    color: white;
+}
+#print{
+    text-align: center;
+}
+
+#username{
+font-size: 20px;
+}
+#password{
+    font-size: 20px;
+}
+
+//js
+
+//secure login program
+let maximumAttempts = 3; // Maximum attempts
+let Time = 5 * 60 * 1000; // 5 minutes timer in milliseconds
+
+let failedAttempts = 0; //  failed attempts
+let Timer = null; // timer store
+
+// Function to hash the password
+function hash(password) {
+    // used method to hash password
+    return password.split('').map(c => c.charCodeAt(0).toString(16)).join('');
+}
+
+// login Function 
+function login() {
+    // Check if timer is active
+    if (Timer !== null) {
+        document.getElementById("print").innerText = "Login blocked. Please try again later.";
+        return;
+    }
+
+    // fixed values
+    let getUsername = "Aptech";
+    let getPassword = "617074656368313233"; // Hashed password "aptech123"
+
+    // username and password target from html
+    let username = document.getElementById("username").value;
+    let password = document.getElementById("password").value;
+
+    // Check if username and password match with provided credentials
+    if (username && password) {
+        if (username === getUsername && hash(password) === getPassword) {
+            document.getElementById("print").innerText = "Login successful!";
+            document.getElementById("print").style.color = "green";
+            location.href = "dashboard.html"
+            failedAttempts = 0; // Reset failed attempts
+        } else {
+            failedAttempts++;
+            if (failedAttempts >= maximumAttempts) {
+                document.getElementById("print").innerText = "Maximum attempts reached. Please try again later.";
+                document.getElementById("print").style.color = "red";
+                Timer = setTimeout(reset, Time); // Start timer
+            } else {
+                document.getElementById("print").innerText = "Incorrect credentials. Please try again.";
+                document.getElementById("print").style.color = "red";
+            }
+        }
+    } else {
+        document.getElementById("print").innerText = "Every Field Must Be Fill Out";
+        document.getElementById("print").style.color = "red";
+    }
+}
+
+// Function to reset failed attempts and timer
+function reset() {
+    failedAttempts = 0;
+    Timer = null;
+    document.getElementById("print").innerText = "";
+}

@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkerboard Generator</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+</head>
+
+<body>
+    <h2 class="text-center text-decoration-underline">Checkerboard Generator</h2><br>
+    <div class="container text-center">
+        
+        <form id="checkerboardForm">
+            <label for="rows">Number of Rows</label><br><br>
+            <input type="number" id="rows" name="rows"><br>
+            <span id="span1"></span><br>
+            <label for="columns">Number of Columns</label><br><br>
+            <input type="number" id="columns" name="columns"><br>
+            <span id="span2"></span><br><br>
+            <label for="lightColor">Light Square Color</label><br><br>
+            <input type="color" id="lightColor" name="lightColor" value="#ffffff"><br>
+            <span id="span3"></span><br><br>
+            <label for="darkColor">Dark Square Color</label><br><br>
+            <input type="color" id="darkColor" name="darkColor" value="#000000"><br>
+            <span id="span4"></span><br><br>
+            <button class="btn btn-success" type="button" onclick="generateCheckerBoard()">Generate Checkerboard</button>
+        </form>
+
+    </div>
+    <div id="print"></div>
+
+    <script src="q1.js"></script>
+</body>
+
+</html>
+
+
+//css
+
+body {
+    font-family: Arial, sans-serif;
+}
+
+.container {
+    max-width: 600px;
+    margin: 0 auto;
+    text-align: center;
+    text-align: justify;
+    width: 400px !important;
+    border-radius: 10px !important;
+    -webkit-box-shadow: 0 0 5px 2px #000000 !important;
+    -moz-box-shadow: 0 0 5px 2px #000000 !important;
+    box-shadow: 0 0 5px 2px #000000 !important;
+    height: 600px;
+}
+
+.board {
+    display: inline-block;
+    margin-top: 20px !important;
+}
+
+.row {
+    display: flex;
+}
+
+.square {
+    width: 30px !important;
+    /* Initial size of each square */
+    height: 30px !important;
+    /* Initial size of each square */
+}
+
+#print {
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+
+}
+label{
+    font-size: 20px;
+    font-family: serif;
+}
+input[type = 'color']:hover {
+    cursor: pointer;
+}
+
+input[type = 'color'] {
+    padding: 0;
+    border: none;
+    border-radius: 30px;
+    width: 40px;
+    height: 40px;
+
+}
+
+input[type = 'color']::-webkit-color-swatch {
+    border: 1px solid;
+    border-radius: 30px;
+    padding: 0;
+}
+
+input[type = 'color']::-webkit-color-swatch-wrapper {
+    border: none;
+    border-radius: 30px;
+    padding: 0;
+}
+
+
+
+//js
+
+
+
+function generateCheckerBoard() {
+    let rows = parseInt(document.getElementById('rows').value);
+    let columns = parseInt(document.getElementById('columns').value);
+    let lightColor = document.getElementById('lightColor').value;
+    let darkColor = document.getElementById('darkColor').value;
+    //if row input is blank
+    if (!rows) {
+        document.getElementById("span1").innerText = "Please Fill Out This Field"
+        document.getElementById("span1").style.color = "red";
+    }
+    //if row less than zero
+    else if (rows < 0) {
+        document.getElementById("span1").innerText = "Negative Numbers Are Not Allowed"
+        document.getElementById("span1").style.color = "red";
+    }
+    else {
+        document.getElementById("span1").innerText = "";
+    }
+    //if column input is blank
+    if (!columns) {
+        document.getElementById("span2").innerText = "Please Fill Out This Field"
+        document.getElementById("span2").style.color = "red";
+    }
+    //if column less than zero
+    else if (columns < 0) {
+        document.getElementById("span2").innerText = "Negative Numbers Are Not Allowed"
+        document.getElementById("span2").style.color = "red";
+    }
+    else {
+        document.getElementById("span2").innerText = "";
+    }
+    //if row and column greater than 0 then print
+    if (rows > 0 && columns > 0) {
+        //second if not a light color
+        if (!isLightColor(lightColor) || !isDarkColor(darkColor)) {
+            if (!isLightColor(lightColor)) {
+                document.getElementById("span3").innerText = "Please choose a lighter color for the light squares";
+                document.getElementById("span3").style.color = "red";
+            }
+            else {
+                document.getElementById("span3").innerText = "";
+            }
+            //third if not a dark color
+            if (!isDarkColor(darkColor)) {
+                document.getElementById("span4").innerText = "Please choose a Dark color for the Dark squares";
+                document.getElementById("span4").style.color = "red";
+            }
+            else {
+                document.getElementById("span4").innerText = "";
+            }
+            return;
+        }
+        document.getElementById("span3").innerText = "";
+        document.getElementById("span4").innerText = "";
+
+        let checkerboardHTML = '';
+        for (let i = 0; i < rows; i++) {
+            checkerboardHTML += '<div class="row">';
+            for (let j = 0; j < columns; j++) {
+                let color = (i + j) % 2 === 0 ? lightColor : darkColor;
+                checkerboardHTML += '<div class="square" style="background-color: ' + color + ';"></div>';
+            }
+            checkerboardHTML += '</div>';
+        }
+
+        document.getElementById('print').innerHTML = '<div class="board">' + checkerboardHTML + '</div>';
+    }
+}
+
+// function to check if a color is light
+function isLightColor(color) {
+    // Convert color to RGB
+    let rgb = hexToRgb(color);
+    // Calculate luminance
+    let luminance = (0.299 * rgb.r + 0.587 * rgb.g + 0.114 * rgb.b) / 255;
+    // Return true if luminance is greater than 0.5 (considered light)
+    return luminance > 0.5;
+}
+
+// function to check if a color is dark
+function isDarkColor(color) {
+    // Convert color to RGB
+    let rgb = hexToRgb(color);
+    // Calculate luminance
+    let luminance = (0.299 * rgb.r + 0.587 * rgb.g + 0.114 * rgb.b) / 255;
+    // Return true if luminance is less than 0.5 (considered dark)
+    return luminance < 0.5;
+}
+
+// function to convert hex color to RGB
+function hexToRgb(hex) {
+    let bigint = parseInt(hex.substring(1), 16);
+    let r = (bigint >> 16) & 255;
+    let g = (bigint >> 8) & 255;
+    let b = bigint & 255;
+    return { r: r, g: g, b: b };
+}

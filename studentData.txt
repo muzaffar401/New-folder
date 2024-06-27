@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mark Sheet</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: center;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        td.percentage {
+            font-weight: bold;
+        }
+        .green {
+            background-color: lightgreen;
+        }
+        .orange {
+            background-color: orange;
+        }
+        .red {
+            background-color: tomato;
+            color: white;
+        }
+        .black {
+            background-color: black;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <h1>Mark Sheet</h1>
+    <table id="markSheet">
+        <thead>
+            <tr>
+                <th>Student Name</th>
+                <th>Subject</th>
+                <th>Topic</th>
+                <th>Percentage</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Data will be populated here -->
+        </tbody>
+    </table>
+
+    <script>
+        // Fetch JSON data and populate the table
+        fetch('api.json')
+            .then(response => response.json())
+            .then(data => {
+                const tableBody = document.querySelector('#markSheet tbody');
+                data.forEach(item => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${item.studentName}</td>
+                        <td>${item.subject}</td>
+                        <td>${item.topic}</td>
+                        <td class="percentage">${item.percentage}%</td>
+                    `;
+                    // Apply color coding based on percentage range
+                    if (item.percentage >= 80 && item.percentage <= 100) {
+                        row.querySelector('.percentage').classList.add('green');
+                    } else if (item.percentage >= 60 && item.percentage <= 79) {
+                        row.querySelector('.percentage').classList.add('orange');
+                    } else if (item.percentage >= 0 && item.percentage <= 59) {
+                        row.querySelector('.percentage').classList.add('red');
+                    } else {
+                        row.querySelector('.percentage').classList.add('black');
+                    }
+                    tableBody.appendChild(row);
+                });
+            })
+            .catch(error => {
+                console.error('Error fetching data:', error);
+                alert('Failed to fetch mark sheet data. Please try again later.');
+            });
+    </script>
+</body>
+</html>
+
+
+
+
+
+//json
+
+[
+    {
+      "studentName": "John Doe",
+      "subject": "Mathematics",
+      "topic": "Algebra",
+      "percentage": 85
+    },
+    {
+      "studentName": "Jane Smith",
+      "subject": "Science",
+      "topic": "Biology",
+      "percentage": 72
+    },
+    {
+      "studentName": "Michael Johnson",
+      "subject": "English",
+      "topic": "Literature",
+      "percentage": 60
+    },
+    {
+      "studentName": "Emily Brown",
+      "subject": "History",
+      "topic": "World Wars",
+      "percentage": 45
+    }
+  ]
+  

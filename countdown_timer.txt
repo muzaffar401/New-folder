@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Countdown Timer</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 50px;
+        }
+        #time {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+        button {
+            padding: 10px 20px;
+            margin: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>Countdown Timer</h1>
+    <div id="time">05:00</div>
+    <button onclick="startCountdown()">Start</button>
+
+    <script>
+        let countdownTime = 5 * 60; // 5 minutes in seconds
+        let timerInterval;
+
+        function timeToString(time) {
+            let minutes = Math.floor(time / 60);
+            let seconds = time % 60;
+
+            let formattedMinutes = minutes.toString().padStart(2, "0");
+            let formattedSeconds = seconds.toString().padStart(2, "0");
+
+            return `${formattedMinutes}:${formattedSeconds}`;
+        }
+
+        function print(txt) {
+            document.getElementById("time").innerHTML = txt;
+        }
+
+        function startCountdown() {
+            clearInterval(timerInterval);
+            timerInterval = setInterval(function() {
+                if (countdownTime > 0) {
+                    countdownTime--;
+                    print(timeToString(countdownTime));
+                } else {
+                    clearInterval(timerInterval);
+                    alert("Time's up!");
+                }
+            }, 1000);
+        }
+    </script>
+</body>
+</html>

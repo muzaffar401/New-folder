@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="bootstrap-5.0.2-dist/css/bootstrap.min.css">
+    <script src="bootstrap-5.0.2-dist/js/bootstrap.min.js"></script>
+    <script src="/booststrap/jquery/jquery-3.7.1.min.js"></script>
+</head>
+<body>
+    <h1 class="text-capitalize text-center text-info">Registration Form</h1>
+    <div class="container">
+        <div class="mb-3">
+            <label for="Uname" class="form-label">Name</label>
+            <input type="text" class="form-control" id="Uname" aria-describedby="emailHelp">
+            <div id="nameHelp" class="form-text"></div>
+        </div>
+        <div class="mb-3">
+            <label for="Uemail" class="form-label">Email</label>
+            <input type="email" class="form-control" id="Uemail" aria-describedby="emailHelp">
+            <div id="emailHelp" class="form-text"></div>
+        </div>
+        <div class="mb-3">
+            <label for="Upass" class="form-label">Password</label>
+            <input type="text" class="form-control" id="Upass">
+            <div id="passHelp" class="form-text"></div>
+        </div>
+        <div class="mb-3">
+            <label for="Ucpass" class="form-label">Confirm Password</label>
+            <input type="text" class="form-control" id="Ucpass">
+            <div id="cpassHelp" class="form-text"></div>
+        </div>
+        <button type="submit" id="btn" class="btn btn-primary">Sign In</button>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('Uname').addEventListener('keyup', function() {
+                const uName = document.getElementById('Uname').value;
+                const nameHelp = document.getElementById('nameHelp');
+                const regexName = /^[A-Za-z\s]{3,14}$/;
+
+                if (!regexName.test(uName)) {
+                    this.style.border = '2px solid red';
+                    nameHelp.innerHTML = 'Please enter valid data in this input';
+                    nameHelp.style.color = 'red';
+                    nameHelp.style.margin = '5px';
+                    nameHelp.style.fontWeight = 'bold';
+                } else {
+                    this.style.border = '2px solid green';
+                    nameHelp.innerHTML = '';
+                }
+            });
+
+            document.getElementById('Uemail').addEventListener('keyup', function() {
+                const uEmail = document.getElementById('Uemail').value;
+                const emailHelp = document.getElementById('emailHelp');
+                const regexEmail = /^[\w]{1,12}[@][a-z]{5,9}[.][a-z]{2,6}$/;
+
+                if (!regexEmail.test(uEmail)) {
+                    this.style.border = '2px solid red';
+                    emailHelp.innerHTML = 'Please enter valid email pattern ab12@gmail.com in this input';
+                    emailHelp.style.color = 'red';
+                    emailHelp.style.margin = '5px';
+                    emailHelp.style.fontWeight = 'bold';
+                } else {
+                    this.style.border = '2px solid green';
+                    emailHelp.innerHTML = '';
+                }
+            });
+
+            document.getElementById('Upass').addEventListener('keyup', function() {
+                const uPass = document.getElementById('Upass').value;
+                const passHelp = document.getElementById('passHelp');
+                const regexPass = /^[\w]{8,16}$/;
+
+                if (!regexPass.test(uPass)) {
+                    this.style.border = '2px solid red';
+                    passHelp.innerHTML = 'Please enter valid password. At least 8 characters are required.';
+                    passHelp.style.color = 'red';
+                    passHelp.style.margin = '5px';
+                    passHelp.style.fontWeight = 'bold';
+                } else {
+                    this.style.border = '2px solid green';
+                    passHelp.innerHTML = '';
+                }
+            });
+
+            document.getElementById('Ucpass').addEventListener('keyup', function() {
+                const uCpass = document.getElementById('Ucpass').value;
+                const uPass = document.getElementById('Upass').value;
+                const cpassHelp = document.getElementById('cpassHelp');
+
+                if (uCpass !== uPass) {
+                    this.style.border = '2px solid red';
+                    cpassHelp.innerHTML = 'Confirm password does not match the password.';
+                    cpassHelp.style.color = 'red';
+                    cpassHelp.style.margin = '5px';
+                    cpassHelp.style.fontWeight = 'bold';
+                } else {
+                    this.style.border = '2px solid green';
+                    cpassHelp.innerHTML = '';
+                }
+            });
+
+            function emptyFields(id) {
+                const element = document.getElementById(id);
+                if (element.value === '') {
+                    element.style.border = '2px solid red';
+                    const nextDiv = element.nextElementSibling;
+                    nextDiv.innerHTML = 'This field is required.';
+                    nextDiv.style.color = 'red';
+                    nextDiv.style.margin = '5px';
+                    nextDiv.style.fontWeight = 'bold';
+                }
+            }
+
+            document.getElementById('btn').addEventListener('click', function() {
+                const uName = document.getElementById('Uname').value;
+                const uEmail = document.getElementById('Uemail').value;
+                const uPass = document.getElementById('Upass').value;
+                const uCpass = document.getElementById('Ucpass').value;
+                const regexName = /^[A-Za-z\s]{3,14}$/;
+                const regexPass = /^[\w]{8,16}$/;
+                const regexEmail = /^[\w]{1,12}[@][a-z]{5,9}[.][a-z]{2,6}$/;
+
+                if (uName === '' || uEmail === '' || uPass === '' || uCpass === '') {
+                    emptyFields('Uname');
+                    emptyFields('Uemail');
+                    emptyFields('Upass');
+                    emptyFields('Ucpass');
+                } else if (!(regexName.test(uName) && regexEmail.test(uEmail) && regexPass.test(uPass) && uCpass === uPass)) {
+                    alert('Valid data must be provided in every field.');
+                } else {
+                    alert('Data submitted.');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

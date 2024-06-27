@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Branch Location Map</title>
+    <style>
+        #map {
+            height: 400px;
+            width: 100%;
+        }
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 0 20px;
+        }
+        select {
+            font-size: 16px;
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Branch Location Map</h1>
+        <label for="branchSelect">Select Branch:</label>
+        <select id="branchSelect" onchange="showBranchLocation()">
+            <option value="new-york">New York Branch</option>
+            <option value="los-angeles">Los Angeles Branch</option>
+            <option value="chicago">Chicago Branch</option>
+            <!-- Add more options as needed -->
+        </select>
+        <div id="map"></div>
+    </div>
+
+    <script>
+        let map;
+        let markers = [];
+
+        function initMap() {
+            map = new google.maps.Map(document.getElementById('map'), {
+                center: { lat: 40.7128, lng: -74.006 },
+                zoom: 8
+            });
+        }
+
+        function showBranchLocation() {
+            clearMarkers();
+
+            const branchSelect = document.getElementById('branchSelect');
+            const selectedBranch = branchSelect.value;
+
+            const branchLocations = {
+                'new-york': { lat: 40.7128, lng: -74.006 },
+                'los-angeles': { lat: 34.0522, lng: -118.2437 },
+                'chicago': { lat: 41.8781, lng: -87.6298 }
+                // Add more branches and coordinates as needed
+            };
+
+            if (branchLocations[selectedBranch]) {
+                const location = branchLocations[selectedBranch];
+                const marker = new google.maps.Marker({
+                    position: location,
+                    map: map,
+                    title: selectedBranch.toUpperCase()
+                });
+                markers.push(marker);
+
+                map.setCenter(location);
+                map.setZoom(12);
+            }
+        }
+
+        function clearMarkers() {
+            markers.forEach(marker => {
+                marker.setMap(null);
+            });
+            markers = [];
+        }
+    </script>
+   <script async
+   src="https://maps.googleapis.com/maps/api/js?key&loading=async&callback=initMap">
+   onerror="handleMapError()">
+</script>
+
+    <script>
+        function handleMapError() {
+            alert('Failed to load Google Maps API. Please check your internet connection or try again later.');
+        }
+    </script>
+</body>
+</html>

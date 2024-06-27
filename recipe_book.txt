@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Recipe Book</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="css/bootstrap.min.css">
+</head>
+
+<body>
+  <div class="container">
+    <h1>Recipe Book</h1>
+    <div>
+      <form id="recipeForm">
+        <h4>Recipe Name</h4>
+        <input type="text" id="recipeName" placeholder="Enter Recipe Name" /><br>
+        <span id="span1"></span><br>
+        <h4>Ingredients</h4>
+        <textarea id="ingredients" rows="4" placeholder="Enter Recipe Ingredients......"></textarea><br />
+        <span id="span2"></span><br />
+        <h4>Instructions</h4>
+        <textarea id="instructions" rows="4" placeholder="Enter Recipe Instructions....."></textarea><br />
+        <span id="span3"></span><br /><br>
+        <button type="submit">Add Recipe</button>
+      </form>
+    </div>
+    <h2>Recipes</h2>
+   
+    <div class="row justify-content-evenly" id="recipeList">
+
+ 
+    </div>
+  </div>
+
+
+
+  <script src="q1.js"></script>
+</body>
+
+</html>
+
+
+//css
+
+body {
+    font-family: Arial, sans-serif;
+    background-image: url(/css/pexels-vanessa-loring-5966431.jpg);
+    background-position: center;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    background-size: cover;
+   
+}
+
+.container {
+    max-width: 600px !important;
+    margin: 0 auto !important;
+    padding: 20px !important;
+    background-color: rgba(255, 255, 255,0.6) !important;
+    border-radius: 8px !important;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1) !important;
+}
+
+h1 {
+    text-align: center;
+}
+
+form {
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+input,
+textarea {
+    width: 90%;
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    resize: vertical;
+    font-size: 20px;
+}
+
+button {
+    display: block;
+    padding: 10px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px !important;
+    cursor: pointer;
+    text-align: center;
+    align-items: center;
+}
+
+button:hover {
+    background-color: #000000;
+    color: white;
+}
+
+.recipe-list {
+    border-top: 1px solid #ccc;
+    margin-top: 20px;
+    /* padding-top: 20px; */
+}
+
+h4{
+    font-size: 20px;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+//js
+
+
+document.addEventListener("DOMContentLoaded", function () {
+  let recipeForm = document.getElementById("recipeForm");
+  let recipeList = document.getElementById("recipeList");
+
+  // load recipes from localStorage on page load
+  loadRecipes();
+
+  // event listener for form submission
+  recipeForm.addEventListener("submit", function (event) {
+    event.preventDefault();
+    addRecipe();
+  });
+
+  // function to add recipe
+  function addRecipe() {
+    let recipeName = document.getElementById("recipeName").value;
+    let ingredients = document.getElementById("ingredients").value;
+    let instructions = document.getElementById("instructions").value;
+
+    //if not recipe name and else if not match with alphabets
+    if (!recipeName) {
+      document.getElementById("span1").innerText = "Please Fill Out This Field";
+      document.getElementById("span1").style.color = "red";
+    } else if (!(/^[a-zA-Z\s]+$/.test(recipeName) || recipeName.length == 0)) {
+      document.getElementById("span1").innerText = "Only Alphabets are Allowed";
+      document.getElementById("span1").style.color = "red";
+    } else {
+      document.getElementById("span1").innerText = "";
+    }
+    //if not ingredients 
+    if (!ingredients) {
+      document.getElementById("span2").innerText = "Please Fill Out This Field";
+      document.getElementById("span2").style.color = "red";
+    } else {
+      document.getElementById("span2").innerText = "";
+    }
+    //if not instructions
+    if (!instructions) {
+      document.getElementById("span3").innerText = "Please Fill Out This Field";
+      document.getElementById("span3").style.color = "red";
+    } else {
+      document.getElementById("span3").innerText = "";
+    }
+    //if all conditions are true then print 
+    if (recipeName.match(/^[a-zA-Z\s]+$/) && ingredients && instructions) {
+      let recipe = {
+
+        name: recipeName,
+        ingredients: ingredients,
+        instructions: instructions,
+      };
+
+      
+      // Save recipe to 
+   
+      if (localStorage.getItem("recipies") == null) {
+        localStorage.setItem("recipies", '[]')
+      }
+      let data = JSON.parse(localStorage.getItem("recipies"));
+      // console.log(data)
+      data.push(recipe);
+      localStorage.setItem("recipies", JSON.stringify(data));
+window.location.assign('q1.html')
+
+
+      // Refresh recipe list
+      // loadRecipes();
+
+      // Clear form fields
+      recipeForm.reset();
+    }
+  }
+
+  // function to load recipes from localStorage
+  function loadRecipes() {
+    let retriveData = JSON.parse(localStorage.getItem("recipies"));
+    // console.log(retriveData.length)
+    if (retriveData != null) {
+      // console.log(retrive)
+      // recipeList.innerHTML = "<h2>Recipes</h2>";
+      let recipeItem="";
+      for (let items of retriveData) {
+        // let recipeItem = document.createElement("div");
+        recipeItem += `
+        <div class="col-lg-4 mt-3">
+        <div class="card">
+        <img src="css/images.jfif" class="card-img-top" alt="...">
+        <div class="card-body">
+          <h5 class="card-title">Recipe Name:<br>${items.name}</h5>
+          <p class="card-text"><strong>Ingredients:</strong><br>${items.ingredients}</p>
+          <p class="card-text"><strong>Instructions:</strong><br>${items.instructions}</p>
+          <button class="btn btn-primary" onclick="removeRecipe('${items.name}')">Delete</button>
+        </div>
+      </div>
+      </div>
+  `;
+        
+
+      }
+    document.querySelector("#recipeList").innerHTML=recipeItem;
+    }
+  }
+
+
+
+
+
+});
+function removeRecipe(itemsname) {
+ 
+  let recipes = JSON.parse(localStorage.getItem("recipies"));
+  for (let i = 0; i < recipes.length; i++) {
+    // console.log(recipes[i].name)
+    if (recipes[i].name === itemsname) {
+      console.log(recipes[i].name)
+      recipes.splice(i, 1);
+      localStorage.setItem("recipies", JSON.stringify(recipes));
+      window.location.assign('q1.html')
+   
+      break; // Exit the loop once the recipe is found and removed
+    }
+  }
+ 
+
+
+}

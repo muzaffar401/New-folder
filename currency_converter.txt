@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Currency Converter</title>
+</head>
+
+<body>
+    <!DOCTYPE html>
+    <html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Currency Converter</title>
+        <link rel="stylesheet" href="style.css">
+    </head>
+
+    <body>
+        <h1>Currency Converter</h1>
+        <div class="container">
+            <h1 id="h1">Enter Amount</h1>
+            <input type="number" id="input" min="0" placeholder="0">
+            <br>
+            <div class="select">
+                <div class="from">
+                    <span>FROM :</span>
+                    <select id="From">
+                        <option value="USD">USD</option>
+                        <option value="EUR">EUR</option>
+                        <option value="GBP">GBP</option>
+                        <option value="JPY">JPY</option>
+                        <option value="CAD">CAD</option>
+                        <option value="PKR">PKR</option>
+                    </select>
+                </div>
+                <div class="to">
+                    <span>TO :</span>
+                    <select id="To">
+                        <option value="USD">USD</option>
+                        <option value="EUR">EUR</option>
+                        <option value="GBP">GBP</option>
+                        <option value="JPY">JPY</option>
+                        <option value="CAD">CAD</option>
+                        <option value="PKR">PKR</option>
+                    </select>
+                </div>
+            </div>
+            <br><br>
+            <button onclick="currencyConverter()">Convert</button>
+            <br><br>
+            <div id="print"></div>
+        </div>
+
+        <script src="q1.js"></script>
+
+    </body>
+
+    </html>
+
+    <script src="q1.js"></script>
+</body>
+
+</html>
+
+
+//css
+
+body {
+    font-family: Arial, sans-serif;
+    background: rgb(0, 0, 0);
+    height: 612px;
+}
+
+.container {
+    max-width: 400px;
+    margin: 50px auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background-color: rgba(255, 255, 255,1);
+    border: none;
+    height: 400px;
+}
+
+input{
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    box-sizing: border-box;
+    font-size: 20px;
+}
+button {
+    padding: 8px 20px;
+    cursor: pointer;
+    font-size: 20px;
+    border-radius: 10px;
+    border: none;
+    background-color: black;
+    color: white;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+
+}
+
+h1{
+    text-align: center;
+    color: rgb(255, 255, 255);
+}
+#h1{
+    color: rgb(0, 0, 0);
+}
+#print{
+    text-align: center;
+    font-size: 25px;
+    font-weight: bold;
+    font-family: sans-serif;
+}
+
+#to{
+    float: right;
+}
+.select{
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+.to{
+    margin-left: 15px;
+}
+:placeholder-shown{
+    font-size: 20px;
+}
+#From{
+    padding: 5px;
+    font-size: 20px;
+}
+#To{
+    padding: 5px;
+    font-size: 20px;
+}
+#From:hover{
+    cursor: pointer;
+    border-color: blue;
+}
+#To:hover{
+    cursor: pointer;
+    border-color: blue;
+}
+span{
+    font-size: 20px;
+    font-weight: bold;
+}
+
+
+//js
+
+function currencyConverter() {
+    // Get input values
+    let inp = parseFloat(document.getElementById('input').value);
+    let from = document.getElementById('From').value;
+    let to = document.getElementById('To').value;
+
+    // Validate in input field
+
+    if (isNaN(inp) || inp <= 0) {
+        document.getElementById('print').innerText = 'Enter Valid Amount!';
+        document.getElementById('print').style.color = "red";
+        return;
+    }
+    else if (from == to){
+        alert("Please Select Another Country Currency")
+        from = " ";
+        to = " ";
+        document.getElementById('print').innerText = " ";
+    }
+
+    // Price rates // used constant to hold price rates
+    const priceRates = {
+        'USD': { 'EUR': 0.92, 'GBP': 0.79, 'JPY': 149.02, 'CAD': 1.35, 'PKR': 279.48 },
+        'EUR': { 'USD': 1.09, 'GBP': 0.85, 'JPY': 162.32, 'CAD': 1.47, 'PKR': 304.21 },
+        'GBP': { 'USD': 1.27, 'EUR': 1.17, 'JPY': 189.98, 'CAD': 1.72, 'PKR': 355.92 },
+        'JPY': { 'USD': 0.0067, 'EUR': 0.0062, 'GBP': 0.0053, 'CAD': 0.0091, 'PKR': 1.88 },
+        'CAD': { 'USD': 0.74, 'EUR': 0.68, 'GBP': 0.58, 'JPY': 110.09, 'PKR': 206.47 },
+        'PKR': { 'USD': 0.0036, 'EUR': 0.0033, 'GBP': 0.0028, 'JPY': 0.53, 'CAD': 0.0048 }
+    };
+
+    // Apply currency conversion
+    const Price = inp * priceRates[from][to];
+
+    // print target from html element 
+    //toFixed() converts a number to a string, rounded to a specified number of decimals
+    document.getElementById('print').innerText = `${inp} ${from} = ${Price.toFixed(2)} ${to}`;
+    document.getElementById('print').style.color = "green";
+}
